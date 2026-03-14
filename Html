@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hookify Pro | AI Viral Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f3f4f6; scroll-behavior: smooth; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.12) 0px, transparent 50%); z-index: -1; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 20px 40px -20px rgba(99, 102, 241, 0.3); }
+        .tab-active { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.5s ease forwards; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+                <div class="w-10 h-10 gradient-bg rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-wand-sparkles text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tighter">Hookify<span class="text-indigo-500">.ai</span></span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#generator" class="hover:text-white transition-colors">Generator</a>
+                <a href="#trending" class="hover:text-white transition-colors">Trending</a>
+                <a href="#saved" class="hover:text-white transition-colors">Saved <span id="saved-count" class="bg-indigo-500/20 text-indigo-400 px-2 rounded-full ml-1">0</span></a>
+            </div>
+            <button class="gradient-bg text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg shadow-purple-500/20 hover:opacity-90 transition-all">Go Pro</button>
+        </div>
+    </nav>
+
+    <section class="pt-44 pb-20 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 glass rounded-full text-xs font-bold text-indigo-300 border border-indigo-500/20 uppercase tracking-widest">
+                <span class="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                Next-Gen Content Intelligence
+            </div>
+            <h1 class="text-6xl md:text-8xl font-extrabold mb-8 leading-tight tracking-tight">
+                Turn Ideas into <span class="gradient-text">Virality.</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+                Hookify uses AI trained on 10,000+ viral videos to generate high-retention hooks, scripts, and video ideas in seconds.
+            </p>
+
+            <div id="generator" class="max-w-4xl mx-auto">
+                <div class="flex justify-center gap-2 mb-4">
+                    <button onclick="switchTool('hook')" id="btn-hook" class="px-6 py-2 rounded-full text-sm font-bold transition-all tab-active">Hook Gen</button>
+                    <button onclick="switchTool('script')" id="btn-script" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-gray-400 hover:text-white">Script + CTA</button>
+                    <button onclick="switchTool('idea')" id="btn-idea" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-gray-400 hover:text-white">Video Ideas</button>
+                </div>
+
+                <div class="glass p-3 rounded-[2.5rem] shadow-2xl">
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <div class="relative flex-grow">
+                            <i class="fa-solid fa-magnifying-glass absolute left-5 top-5 text-gray-500"></i>
+                            <input id="main-input" type="text" placeholder="Describe your video topic..." class="w-full bg-white/5 px-12 py-5 rounded-[1.8rem] outline-none text-white focus:ring-2 ring-indigo-500/50 transition-all border border-white/5">
+                        </div>
+                        <select id="cat-select" class="bg-white/5 px-6 py-5 rounded-[1.8rem] outline-none text-gray-300 border border-white/5 cursor-pointer">
+                            <option value="Viral Content">Viral</option>
+                            <option value="Business">Business</option>
+                            <option value="Storytelling">Storytelling</option>
+                            <option value="Finance">Finance</option>
+                        </select>
+                        <button onclick="processAI()" class="gradient-bg px-10 py-5 rounded-[1.8rem] font-black text-white hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+                            <span>GENERATE</span>
+                            <i class="fa-solid fa-bolt-lightning"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-6 space-y-32 pb-40">
+        
+        <div id="loading-state" class="hidden flex flex-col items-center py-20">
+            <div class="w-16 h-16 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-6"></div>
+            <p class="text-xl font-bold gradient-text animate-pulse">Engineering your viral moment...</p>
+        </div>
+
+        <section id="results-area" class="hidden animate-fade">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h2 class="text-4xl font-black mb-2">Results</h2>
+                    <p class="text-gray-500">Optimized for high-retention and CTR.</p>
+                </div>
+                <button onclick="clearResults()" class="text-sm text-gray-500 hover:text-red-400 transition-colors">Clear All</button>
+            </div>
+            <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+        <section class="relative">
+            <div class="absolute inset-0 bg-indigo-600/5 blur-[120px] rounded-full"></div>
+            <div class="glass p-12 rounded-[3rem] border border-indigo-500/20 flex flex-col md:flex-row items-center gap-12 relative overflow-hidden">
+                <div class="md:w-1/2">
+                    <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 mb-6 text-2xl">
+                        <i class="fa-solid fa-copy"></i>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Viral Hook <span class="text-indigo-400">Stealer</span></h2>
+                    <p class="text-gray-400 text-lg leading-relaxed">Paste a topic or link to a competitor's video, and our AI will deconstruct their strategy to give you 5 better variations.</p>
+                </div>
+                <div class="md:w-1/2 w-full space-y-4">
+                    <input type="text" placeholder="Enter viral topic or URL..." class="w-full bg-black/40 p-5 rounded-2xl border border-white/10 outline-none focus:border-indigo-500/50">
+                    <button class="w-full py-5 rounded-2xl font-bold bg-white text-black hover:bg-indigo-50 transition-all">Analyze Competitor</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="trending">
+            <div class="mb-12">
+                <h2 class="text-4xl font-black mb-2">🔥 Trending Right Now</h2>
+                <p class="text-gray-500">Hooks that are crushing it on the algorithm today.</p>
+            </div>
+            <div id="trending-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <section id="saved" class="pt-10 border-t border-white/5">
+            <h2 class="text-4xl font-black mb-10 flex items-center gap-4">
+                Saved Library <span class="text-pink-500"><i class="fa-solid fa-heart"></i></span>
+            </h2>
+            <div id="saved-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-gray-400">
+                <p>No saved gems yet. Start generating!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let currentTool = 'hook';
+        let savedHooks = JSON.parse(localStorage.getItem('hookify_pro_saved')) || [];
+
+        const database = {
+            hook: [
+                "The secret reason why [Topic] is failing you (it's not what you think).",
+                "I tried [Topic] for 30 days so you don't have to. Here's the truth.",
+                "Stop scrolling! This 3-second hack for [Topic] changed my life.",
+                "POV: You finally discovered the ultimate [Topic] strategy."
+            ],
+            script: [
+                "HOOK: [Topic] is dead. Here's why. \nSCRIPT: Most people focus on the wrong metrics. Focus on quality instead. \nCTA: Follow for more secrets!",
+                "HOOK: They don't want you to know this [Topic] trick. \nSCRIPT: It only takes 5 minutes a day but the results are 10x. \nCTA: Save this for later!"
+            ],
+            idea: [
+                "Video Idea: Day in the life of a [Topic] expert.",
+                "Video Idea: 3 Mistakes you're making with [Topic].",
+                "Video Idea: Why [Topic] is the future of 2026."
+            ]
+        };
+
+        function switchTool(tool) {
+            currentTool = tool;
+            ['hook', 'script', 'idea'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-gray-400');
+            });
+            document.getElementById(`btn-${tool}`).classList.add('tab-active');
+            document.getElementById(`btn-${tool}`).classList.remove('text-gray-400');
+            document.getElementById('main-input').placeholder = `Enter topic for ${tool.toUpperCase()}...`;
+        }
+
+        function processAI() {
+            const val = document.getElementById('main-input').value;
+            if(!val) return alert("Please enter something first!");
+
+            const loading = document.getElementById('loading-state');
+            const results = document.getElementById('results-area');
+            const grid = document.getElementById('results-grid');
+
+            loading.classList.remove('hidden');
+            results.classList.add('hidden');
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                results.classList.remove('hidden');
+                grid.innerHTML = '';
+                
+                const list = database[currentTool];
+                list.forEach(item => {
+                    const text = item.replace(/\[Topic\]/g, val);
+                    grid.innerHTML += createEnhancedCard(text);
+                });
+            }, 1200);
+        }
+
+        function createEnhancedCard(text) {
+            const score = (Math.random() * (9.9 - 8.5) + 8.5).toFixed(1);
+            return `
+                <div class="glass p-8 rounded-[2rem] card-hover flex flex-col justify-between animate-fade">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] uppercase tracking-tighter text-indigo-400 font-bold mb-1">Retention Score</span>
+                                <div class="text-2xl font-black">${score}<span class="text-sm text-gray-500">/10</span></div>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                                <i class="fa-solid fa-chart-line text-green-400"></i>
+                            </div>
+                        </div>
+                        <p class="text-lg font-bold leading-relaxed text-white/90 mb-8 italic">"${text}"</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="copyThis('${text}', this)" class="flex-grow bg-white text-black py-4 rounded-2xl font-bold text-sm hover:bg-indigo-50 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                        <button onclick="saveThis('${text}', '${score}')" class="w-14 h-14 glass rounded-2xl flex items-center justify-center hover:bg-red-500/20 group transition-all">
+                            <i class="fa-regular fa-heart group-hover:text-red-500 transition-colors"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyThis(text, btn) {
+            navigator.clipboard.writeText(text);
+            const old = btn.innerHTML;
+            btn.innerHTML = "Copied! ✨";
+            setTimeout(() => btn.innerHTML = old, 2000);
+        }
+
+        function saveThis(text, score) {
+            if(savedHooks.some(h => h.text === text)) return;
+            savedHooks.push({text, score});
+            localStorage.setItem('hookify_pro_saved', JSON.stringify(savedHooks));
+            renderSaved();
+            updateCount();
+        }
+
+        function renderSaved() {
+            const grid = document.getElementById('saved-grid');
+            if(savedHooks.length === 0) return;
+            grid.innerHTML = '';
+            savedHooks.forEach(h => {
+                grid.innerHTML += createEnhancedCard(h.text);
+            });
+        }
+
+        function updateCount() {
+            document.getElementById('saved-count').innerText = savedHooks.length;
+        }
+
+        function clearResults() {
+            document.getElementById('results-grid').innerHTML = '';
+            document.getElementById('results-area').classList.add('hidden');
+        }
+
+        // Init Trending
+        const trending = [
+            "Why I stopped doing [Topic] in 2026.",
+            "If you want to [Goal], stop focusing on [Topic].",
+            "This simple [Topic] hack is worth millions.",
+            "Unpopular opinion: [Topic] is a waste of time."
+        ];
+        const tGrid = document.getElementById('trending-grid');
+        trending.forEach(t => tGrid.innerHTML += createEnhancedCard(t.replace('[Topic]', 'AI Marketing')));
+        
+        renderSaved();
+        updateCount();
+    </script>
+</body>
+</html>
